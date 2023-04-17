@@ -3,6 +3,7 @@ import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import routes from './routes';
+import { dataSource } from '@shared/http/typeorm';
 
 const port = Number(process.env.SERVER_PORT);
 
@@ -13,6 +14,8 @@ app.use(express.json());
 
 app.use(routes);
 
-app.listen(port, () => {
-  console.log(`Server started on port ${port}! 🏆`);
+dataSource.initialize().then(() => {
+  app.listen(port, () => {
+    console.log(`Server started on port ${port}! 🏆`);
+  });
 });
