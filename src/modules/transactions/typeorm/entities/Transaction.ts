@@ -7,7 +7,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import Account from '@modules/accounts/typeorm/entities/Account';
+import Account from '../../../accounts/typeorm/entities/Account';
+// '@modules/accounts/typeorm/entities/Account';
 
 @Entity('transactions')
 export default class Transaction {

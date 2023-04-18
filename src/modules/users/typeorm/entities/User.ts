@@ -8,7 +8,8 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
-import Account from '@modules/accounts/typeorm/entities/Account';
+import Account from '../../../accounts/typeorm/entities/Account';
+// '@modules/accounts/typeorm/entities/Account';
 
 @Entity('users')
 export default class User {
