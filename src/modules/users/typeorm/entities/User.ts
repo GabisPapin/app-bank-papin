@@ -26,8 +26,8 @@ export default class User {
   @Exclude()
   password: string;
 
-  @OneToOne(() => Account, account => account.user)
-  @JoinColumn({ name: 'accountId' })
+  @OneToOne(() => Account, account => account.id)
+  @JoinColumn({ name: 'account_id' })
   account: Account;
 
   @CreateDateColumn()
