@@ -28,6 +28,7 @@ export default class UserRepository {
       email,
       password: hashedPass,
     });
+    // console.log(user);
 
     await this.ormRepository.save(user);
 
