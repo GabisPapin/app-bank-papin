@@ -1,9 +1,12 @@
 import { Router } from 'express';
+import userRouter from '@modules/users/routes/userRoutes';
+import sessionsRouter from '@modules/users/routes/sessionsRoutes';
+import passwordRouter from '@modules/users/routes/passwordRoutes';
 
 const routes = Router();
 
-routes.get('/', (request, response) => {
-  return response.json({ message: 'Hello Dev!' });
-});
+routes.use('/users', userRouter);
+routes.use('/sessions', sessionsRouter);
+routes.use('/resetpass', passwordRouter);
 
 export default routes;
