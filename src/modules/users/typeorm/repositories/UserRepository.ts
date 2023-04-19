@@ -20,15 +20,20 @@ export default class UserRepository {
     this.ormTokenRepository = dataSource.getRepository(UserToken);
   }
 
-  public async create({ username, email, password }: ICreate): Promise<User> {
+  public async create({
+    username,
+    email,
+    password,
+    account,
+  }: ICreate): Promise<User> {
     const hashedPass = await hash(password, EIGHT);
 
     const user = this.ormRepository.create({
       username,
       email,
       password: hashedPass,
+      account,
     });
-    // console.log(user);
 
     await this.ormRepository.save(user);
 
@@ -54,7 +59,15 @@ export default class UserRepository {
   }
 
   public async findAll(): Promise<User[]> {
-    const users = await this.ormRepository.find();
+    const users = await this.ormRepository.find({
+      select: {
+        id: true,
+        username: true,
+        email: true,
+        created_at: true,
+        updated_at: true,
+      },
+    });
 
     return users;
   }

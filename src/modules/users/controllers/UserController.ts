@@ -15,7 +15,7 @@ export default class UserController {
   }
 
   public async create(req: Request, res: Response): Promise<Response> {
-    const { username, email, password } = req.body;
+    const { username, email, password, account } = req.body;
 
     createVerify({
       username,
@@ -29,6 +29,7 @@ export default class UserController {
       username,
       email,
       password,
+      account,
     });
 
     return res.status(201).json(instanceToPlain(user));

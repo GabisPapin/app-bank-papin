@@ -8,7 +8,6 @@ import {
 } from '@modules/users/typeorm/repositories/UserRepositoryInterface';
 import AppError from '@shared/erros/AppError';
 
-const BALANCE_DEFAULT = 100.0;
 export default class CreateUserService {
   private userRepository: IUserRepository;
   private accountRepository: IAccountRepository;
@@ -18,7 +17,12 @@ export default class CreateUserService {
     this.accountRepository = new AccountRepository();
   }
 
-  public async execute({ username, email, password }: ICreate): Promise<User> {
+  public async execute({
+    username,
+    email,
+    password,
+    account,
+  }: ICreate): Promise<User> {
     const usernameExists = await this.userRepository.findByName(username);
     const emailExists = await this.userRepository.findByEmail(email);
 
@@ -30,14 +34,17 @@ export default class CreateUserService {
       throw new AppError('Email address already exists.', 404);
     }
 
-    await this.accountRepository.create({
-      balance: BALANCE_DEFAULT,
+    const { balance } = account;
+
+    const userAccount = await this.accountRepository.create({
+      balance: balance,
     });
 
     const user = await this.userRepository.create({
       username,
       email,
       password,
+      account: userAccount,
     });
 
     return user;
