@@ -24,3 +24,21 @@ export function createVerify({
     throw new AppError(error.message, 400);
   }
 }
+
+export function updateVerify({
+  username,
+  email,
+  password,
+}: ICreateVerify): void {
+  const schema = Joi.object({
+    username: Joi.string().min(3),
+    email: Joi.string().email(),
+    password: Joi.string().min(8),
+  });
+
+  const { value, error } = schema.validate({ username, email, password });
+
+  if (error) {
+    throw new AppError(error.message, 400);
+  }
+}

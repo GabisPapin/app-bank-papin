@@ -1,4 +1,5 @@
 import UserController from '@modules/users/controllers/UserController';
+import isAuthenticated from '@shared/http/middlewares/isAuthenticated';
 import { Router } from 'express';
 
 const userRouter = Router();
@@ -8,6 +9,6 @@ userRouter.get('/', userController.list);
 
 userRouter.post('/', userController.create);
 
-userRouter.put('/:id', userController.update);
+userRouter.put('/:id', isAuthenticated, userController.update);
 
 export default userRouter;
