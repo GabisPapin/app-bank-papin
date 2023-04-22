@@ -7,6 +7,8 @@ const userController = new UserController();
 
 userRouter.get('/', userController.list);
 
+userRouter.get('/:id', isAuthenticated, userController.showUserAccount);
+
 userRouter.post('/', userController.create);
 
 userRouter.put('/:id', isAuthenticated, userController.update);

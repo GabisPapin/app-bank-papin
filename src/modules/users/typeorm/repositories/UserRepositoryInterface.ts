@@ -25,6 +25,7 @@ export interface IUserRepository {
   findByName(username: string): Promise<User | null>;
   findById(id: string): Promise<User | null>;
   findByEmail(email: string): Promise<User | null>;
+  findAccountById(id: string): Promise<Account | null>;
   findAll(): Promise<User[]>;
   updateUser({ id, username, email, password }: IUpdateUser): Promise<void>;
   updatePassword({ token, password }: IUpdatePass): Promise<void>;

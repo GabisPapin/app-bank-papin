@@ -6,4 +6,5 @@ export interface ICreate {
 
 export interface IAccountRepository {
   create({ balance }: ICreate): Promise<Account>;
+  showUserAccount(id: string): Promise<Account | null>;
 }

@@ -17,4 +17,10 @@ export default class AccountRepository {
 
     return account;
   }
+
+  public async showUserAccount(id: string): Promise<Account | null> {
+    const account = await this.ormRepository.findOneBy({ id });
+
+    return account;
+  }
 }

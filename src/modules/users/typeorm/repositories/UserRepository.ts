@@ -8,6 +8,7 @@ import {
   IUpdatePass,
   IUpdateUser,
 } from '@modules/users/typeorm/repositories/UserRepositoryInterface';
+import Account from '@modules/accounts/typeorm/entities/Account';
 
 const EIGHT = 8;
 
@@ -56,6 +57,16 @@ export default class UserRepository {
     const user = await this.ormRepository.findOneBy({ email });
 
     return user;
+  }
+
+  public async findAccountById(id: string): Promise<Account | null> {
+    const account = this.ormRepository
+      .createQueryBuilder()
+      .relation(User, 'account')
+      .of(id)
+      .loadOne();
+
+    return account;
   }
 
   public async findAll(): Promise<User[]> {

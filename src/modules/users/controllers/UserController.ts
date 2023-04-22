@@ -7,6 +7,7 @@ import {
 } from '@modules/users/middlewares/UserVerify';
 import { Request, Response } from 'express';
 import { instanceToPlain } from 'class-transformer';
+import ShowAccountUserService from '@modules/users/services/ShowAccountUserService';
 
 export default class UserController {
   public async list(req: Request, res: Response): Promise<Response> {
@@ -58,5 +59,15 @@ export default class UserController {
     });
 
     return res.status(201).json({ message: 'User updated successfuly' });
+  }
+
+  public async showUserAccount(req: Request, res: Response): Promise<Response> {
+    const { id } = req.params;
+
+    const account = new ShowAccountUserService();
+
+    const show = await account.showAccount(id);
+
+    return res.status(200).json(show);
   }
 }
