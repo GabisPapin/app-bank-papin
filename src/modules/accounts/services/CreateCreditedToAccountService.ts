@@ -1,18 +1,18 @@
-import { IAccountRepository } from '@modules/accounts/typeorm/repositories/AccountRepositoryInterface';
-import { ITransactionRepository } from '@modules/transactions/typeorm/repositories/TransactionRepositoryInterface';
-import { IUserRepository } from '@modules/users/typeorm/repositories/UserRepositoryInterface';
-import AccountRepository from '@modules/accounts/typeorm/repositories/AccountRepository';
-import UserRepository from '@modules/users/typeorm/repositories/UserRepository';
-import TransactionRepository from '@modules/transactions/typeorm/repositories/TransactionRepository';
-import AppError from '@shared/erros/AppError';
 import Account from '@modules/accounts/typeorm/entities/Account';
+import AccountRepository from '@modules/accounts/typeorm/repositories/AccountRepository';
+import { IAccountRepository } from '@modules/accounts/typeorm/repositories/AccountRepositoryInterface';
+import TransactionRepository from '@modules/transactions/typeorm/repositories/TransactionRepository';
+import { ITransactionRepository } from '@modules/transactions/typeorm/repositories/TransactionRepositoryInterface';
+import UserRepository from '@modules/users/typeorm/repositories/UserRepository';
+import { IUserRepository } from '@modules/users/typeorm/repositories/UserRepositoryInterface';
+import AppError from '@shared/erros/AppError';
 
-interface IDebitedValue {
+interface ICreditedValue {
   id: string;
   value: number;
 }
 
-export default class DebitedAccountService {
+export default class CreateCreditedToAccountService {
   private accountRepository: IAccountRepository;
   private userRepository: IUserRepository;
   private transactionRepository: ITransactionRepository;
@@ -23,28 +23,28 @@ export default class DebitedAccountService {
     this.transactionRepository = new TransactionRepository();
   }
 
-  public async debitedUserAccount({
+  public async creditedUserAccount({
     id,
     value,
-  }: IDebitedValue): Promise<Account | null> {
+  }: ICreditedValue): Promise<Account | null> {
     const account = await this.userRepository.findAccountById(id);
 
     if (!account) {
       throw new AppError('Account not found.', 404);
     }
 
-    const debited = await this.transactionRepository.debitedAccount({
+    const credited = await this.transactionRepository.createTransaction({
       value,
       debitedAccount: account,
       creditedAccount: account,
     });
 
-    const valueDebt = debited.value;
+    const valueCred = credited.value;
     const { balance } = account;
 
-    const totalValue = await this.transactionRepository.subValues({
+    const totalValue = await this.transactionRepository.sumValues({
       balance,
-      value: valueDebt,
+      value: valueCred,
     });
 
     await this.accountRepository.addValueAccount({

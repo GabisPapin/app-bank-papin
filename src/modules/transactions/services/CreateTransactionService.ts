@@ -1,24 +1,26 @@
 import Transaction from '@modules/transactions/typeorm/entities/Transaction';
 import TransactionRepository from '@modules/transactions/typeorm/repositories/TransactionRepository';
 import {
-  IDebitedAccount,
+  ICreateTransaction,
   ITransactionRepository,
 } from '@modules/transactions/typeorm/repositories/TransactionRepositoryInterface';
 
-export default class DebitedTransactionService {
+export default class CreateTransactionService {
   private transactionRepository: ITransactionRepository;
 
   constructor() {
     this.transactionRepository = new TransactionRepository();
   }
 
-  public async debitedTransaction({
+  public async createTransaction({
     value,
     debitedAccount,
-  }: IDebitedAccount): Promise<Transaction> {
-    const valueDebited = await this.transactionRepository.debitedAccount({
+    creditedAccount,
+  }: ICreateTransaction): Promise<Transaction> {
+    const valueDebited = await this.transactionRepository.createTransaction({
       value,
       debitedAccount,
+      creditedAccount,
     });
 
     return valueDebited;

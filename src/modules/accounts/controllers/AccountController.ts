@@ -1,4 +1,5 @@
-import DebitedAccountService from '@modules/accounts/services/DebitedAccountService';
+import CreateCreditedToAccountService from '@modules/accounts/services/CreateCreditedToAccountService';
+import CreateDebitedToAccountService from '@modules/accounts/services/CreateDebitedToAccountService';
 import { Request, Response } from 'express';
 
 export default class AccountController {
@@ -6,9 +7,23 @@ export default class AccountController {
     const { id } = req.params;
     const { value } = req.body;
 
-    const debitedAccount = new DebitedAccountService();
+    const debitedAccount = new CreateDebitedToAccountService();
 
     const accountUpdated = await debitedAccount.debitedUserAccount({
+      id,
+      value,
+    });
+
+    return res.status(200).json(accountUpdated);
+  }
+
+  public async credited(req: Request, res: Response): Promise<Response> {
+    const { id } = req.params;
+    const { value } = req.body;
+
+    const creditedAccount = new CreateCreditedToAccountService();
+
+    const accountUpdated = await creditedAccount.creditedUserAccount({
       id,
       value,
     });

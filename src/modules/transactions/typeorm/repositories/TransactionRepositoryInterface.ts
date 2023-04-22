@@ -1,22 +1,23 @@
 import Account from '@modules/accounts/typeorm/entities/Account';
 import Transaction from '@modules/transactions/typeorm/entities/Transaction';
 
-export interface IDebitedAccount {
+export interface ICreateTransaction {
   value: number;
   debitedAccount: Account;
   creditedAccount: Account;
 }
 
-export interface ISumValue {
+export interface IValues {
   balance: number;
   value: number;
 }
 
 export interface ITransactionRepository {
-  debitedAccount({
+  createTransaction({
     value,
     debitedAccount,
     creditedAccount,
-  }: IDebitedAccount): Promise<Transaction>;
-  subValues({ balance, value }: ISumValue): Promise<number>;
+  }: ICreateTransaction): Promise<Transaction>;
+  subValues({ balance, value }: IValues): Promise<number>;
+  sumValues({ balance, value }: IValues): Promise<number>;
 }
