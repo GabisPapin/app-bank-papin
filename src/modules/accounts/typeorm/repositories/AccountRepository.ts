@@ -1,7 +1,10 @@
 import { Repository } from 'typeorm';
 import { dataSource } from '@shared/http/typeorm';
 import Account from '@modules/accounts/typeorm/entities/Account';
-import { ICreate } from '@modules/accounts/typeorm/repositories/AccountRepositoryInterface';
+import {
+  IBalanceUpdate,
+  ICreate,
+} from '@modules/accounts/typeorm/repositories/AccountRepositoryInterface';
 
 export default class AccountRepository {
   private ormRepository: Repository<Account>;
@@ -22,5 +25,9 @@ export default class AccountRepository {
     const account = await this.ormRepository.findOneBy({ id });
 
     return account;
+  }
+
+  public async addValueAccount({ id, value }: IBalanceUpdate): Promise<void> {
+    await this.ormRepository.update(id, { balance: value });
   }
 }

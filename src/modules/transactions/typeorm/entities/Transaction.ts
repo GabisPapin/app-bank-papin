@@ -19,11 +19,11 @@ export default class Transaction {
   value: number;
 
   @ManyToOne(() => Account, account => account.transactionDebited)
-  @JoinColumn({ name: 'debitedAccountId' })
+  @JoinColumn({ name: 'debited_account_id' })
   debitedAccount: Account;
 
   @ManyToOne(() => Account, account => account.transactionCredited)
-  @JoinColumn({ name: 'creditedAccountId' })
+  @JoinColumn({ name: 'credited_account_id' })
   creditedAccount: Account;
 
   @CreateDateColumn()
