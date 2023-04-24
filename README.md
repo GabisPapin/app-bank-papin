@@ -88,7 +88,7 @@ Observação: utilizar token enviado na url do frontend: http://localhost:3000/$
 }
 ```
 
-#### Inserir valor na conta: [POST] http://localhost:9000/account/debit/:id
+#### Retirar valor da conta: [POST] http://localhost:9000/account/debit/:id
 Observação: utilizar o id do user.
 
 * Autenticação Token: o token é retornado na requisição /sessions (login).
